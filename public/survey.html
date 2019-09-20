@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <form>
+                    <div class="form-group">
+                        <label for="name">Your Name:</label>
+                        <textarea class="form-control" id="name" rows="1"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="question-one">Question One: Cat Gifs, should they exist? [Strongly Disagree - 1 /
+                            Strongly Agree - 5]</label>
+                        <select class="form-control" id="question-one">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="question-two">Question Two:</label>
+                        <select class="form-control" id="question-two">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="question-three">Question Three:</label>
+                        <select class="form-control" id="question-three">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="question-four">Question Four:</label>
+                        <select class="form-control" id="question-four">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="question-five">Question Five:</label>
+                        <select class="form-control" id="question-five">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="question-six">Question Six:</label>
+                        <select class="form-control" id="question-six">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="question-seven">Question Seven:</label>
+                        <select class="form-control" id="question-seven">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="question-eight">Question Eight:</label>
+                        <select class="form-control" id="question-eight">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="question-nine">Question Nine:</label>
+                        <select class="form-control" id="question-nine">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="question-ten">Question Ten:</label>
+                        <select class="form-control" id="question-ten">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                        </select>
+                    </div>
+
+                </form>
+                <button type="submit" class="btn btn-primary" id="submit-btn">Submit Survey</button>
+                <a href="/"><button class="btn btn-primary"><span class="fa fa-eye"></span> Return to homepage</button></a>
+            </div>
+        </div>
+    </div>
+
+</body>
+<script src="../server.js"></script>
+<script src="http://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+    crossorigin="anonymous"></script>
+<script>
+    
+    $("#submit-btn").on("click", function (event) {
+        event.preventDefault();
+        var surveyData = {
+                name: $("#name").val(),
+                score: []
+            }
+
+        var questionNumber = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"];
+
+        for (var i = 0; i < questionNumber.length; i++) {
+            surveyData.score.push($("#question-" + questionNumber[i]).val());
+        }
+        
+
+        $.post("/api/survey", surveyData).then(function(data){
+            console.log("survey.html ", data);
+        })
+    })
+
+</script>
+
+</html>

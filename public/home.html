@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Survey Homepage</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="jumbotron">
+        <h1 class="display-4">The Totally Awesome & 100% Accurate Friend Finder!</h1>
+        <p class="lead">This is a simple friend finder</p>
+        <hr class="my-4">
+        <p>Fill out a survey and we will find the best friend for you!</p>
+        <button class="btn btn-danger btn-lg" id="friend-btn"><span class="fa fa-eye"></span> Find a Friend</button>
+        <a href="/survey"><button class="btn btn-danger btn-lg"><span class="fa fa-eye"></span> Take a
+                Survey</button></a>
+    </div>
+</body>
+<script src="http://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+    crossorigin="anonymous"></script>
+<script src="../server.js"></script>
+<script src="../data/friends.js"></script>
+
+<script>
+    $("#friend-btn").on("click", function (event) {
+        event.preventDefault();
+        var userSurvey = {
+            name: "defaultName",
+            score: []
+        }
+
+        var friends = [
+            {
+                name: "Mike",
+                phone: "",
+                score: [1, 2, 3, 4, 5, 4, 3, 2, 1, 2],
+                sameAnswers: 0
+            },
+
+            {
+                name: "Marry",
+                phone: "",
+                score: [3, 4, 5, 5, 5, 1, 2, 2, 1, 1],
+                sameAnswers: 0
+            },
+
+            {
+                name: "Jeff",
+                phone: "",
+                score: [4, 4, 4, 3, 1, 1, 2, 1, 5, 5],
+                sameAnswers: 0
+            },
+
+
+            {
+                name: "Chris",
+                phone: "",
+                score: [5, 5, 5, 2, 4, 1, 1, 1, 1, 3],
+                sameAnswers: 0
+            },
+
+            {
+                name: "Spohie",
+                phone: "",
+                score: [2, 2, 2, 3, 1, 4, 5, 1, 4, 4],
+                sameAnswers: 0
+            },
+        ]
+
+        var mostAlike = [];
+        var bestFriend = "";
+
+        $.ajax({ url: "/api/survey", method: "GET" })
+        .then(function (data) {
+            userSurvey.name = data[0].name;
+            userSurvey.score = data[0].score;
+
+            console.log(friends);
+            console.log(userSurvey);
+
+            for (var i = 0; i < friends.length; i++) {
+                for (var j = 0; j < friends[i].score.length; j++) {
+                    if (userSurvey.score[j] == friends[i].score[j]) {
+                        friends[i].sameAnswers++;
+
+                    }
+                }
+            }
+            for (var i = 0; i < friends.length; i++) {
+                mostAlike.push(friends[i].sameAnswers);
+            }
+            
+            for (var i = 1; i < friends.length; i++) {
+                if (friends[i - 1].sameAnswers < friends[i].sameAnswers) {
+                    bestFriend = friends[i].name;
+                    console.log("New Best Friend:" + bestFriend);
+                }
+            }
+            alert("Your new bestfriend is " + bestFriend);
+        });
+    });
+</script>
+
+</html>
